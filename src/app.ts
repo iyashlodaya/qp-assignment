@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import adminRoutes from "./routes/admin.routes";
 import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
 import sequelize from "./db/config";
 import dbInit from "./db/init";
 
@@ -12,6 +13,7 @@ app.use(express.json()); // middleware for parsing JSON bodies.
 //Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to App!");
