@@ -1,0 +1,59 @@
+import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { User } from "../db/models/";
+
+const SECRET_KEY = "your_jwt_secret_key"; // Replace with an environment variable in production
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      res.status(400).json({ message: "Email and password are required" });
+      return;
+    }
+
+    // Check if the user exists
+    const user = await User.findOne({ where: { email: email } });
+    if (!user) {
+      res.status(401).json({ message: "Invalid email" });
+      return;
+    }
+
+    // Compare passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(401).json({ message: "Password does not match!" });
+      return;
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role, // 'admin' or 'user'
+      },
+      SECRET_KEY,
+      { expiresIn: "1d" } // Token validity: 1 day
+    );
+
+    // Respond with token and user info
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
+    return;
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal server error" });
+    return;
+  }
+};
