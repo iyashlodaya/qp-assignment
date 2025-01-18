@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { User } from "../db/models/";
+import { User } from "../../db/models";
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY as string; // Replace with an environment variable in production
 
@@ -33,7 +33,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // Generate JWT
     const token = jwt.sign(
       {
-        id: user.id,
+        user_id: user.id,
         role: user.role, // 'admin' or 'user'
       },
       SECRET_KEY,

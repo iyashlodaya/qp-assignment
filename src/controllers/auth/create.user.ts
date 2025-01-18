@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../db/models";
+import { User } from "../../db/models";
 import bcrypt from "bcrypt";
 
 // Create a user (Register API)
