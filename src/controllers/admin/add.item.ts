@@ -7,6 +7,11 @@ export const addItem = async (
   res: Response
 ): Promise<void> => {
   try {
+    if (req.user && req.user.role !== "admin") {
+      res.status(403).json({ message: "Unautorized access!" });
+      return;
+    }
+    
     const { name, price, category, stock } = req.body;
 
     // Validate the input

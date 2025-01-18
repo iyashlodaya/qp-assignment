@@ -7,14 +7,19 @@ export const getAllItems = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { category } = req.params;
+    const { category } = req.query;
+
+    if (req.user && req.user.role !== "admin") {
+      res.status(403).json({ message: "Unautorized access!" });
+      return;
+    }
 
     let resultArr = [];
 
     if (!category) {
       resultArr = await Item.findAll();
     } else {
-      resultArr = await Item.findAll({ where: { category: category } });
+      resultArr = await Item.findAll({ where: { category: category as string } });
     }
 
     res.status(201).json({
