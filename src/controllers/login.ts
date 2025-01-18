@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "../db/models/";
 
-const SECRET_KEY = "your_jwt_secret_key"; // Replace with an environment variable in production
+const SECRET_KEY = process.env.JWT_SECRET_KEY as string; // Replace with an environment variable in production
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -11,6 +11,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     // Validate input
     if (!email || !password) {
+      console.log('email and password are required fields!')
       res.status(400).json({ message: "Email and password are required" });
       return;
     }
