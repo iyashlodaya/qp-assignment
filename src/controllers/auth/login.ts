@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import * as crypto from 'crypto';
 import { User } from "../../db/models";
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY as string; // Replace with an environment variable in production
@@ -23,9 +23,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Compare passwords
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    // Hash the input password and compare with stored password
+    const hash = crypto.createHash('sha256');
+    const hashedPassword = hash.update(password).digest('hex');
+
+    if (hashedPassword !== user.password) {
       res.status(401).json({ message: "Password does not match!" });
       return;
     }

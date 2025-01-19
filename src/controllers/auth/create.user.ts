@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../../db/models";
-import bcrypt from "bcrypt";
+import * as crypto from 'crypto';
 
 // Create a user (Register API)
 export const createUser = async (
@@ -24,7 +24,8 @@ export const createUser = async (
     }
 
     // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hash = crypto.createHash('sha256');
+    const hashedPassword = hash.update(password).digest('hex');
 
     // Create the user
     const newUser = await User.create({

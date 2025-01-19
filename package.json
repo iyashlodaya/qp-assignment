@@ -4,7 +4,7 @@
   "description": "NodeJS Project for Admin and User API's",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/app.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "crypto": "^1.0.1",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
@@ -22,7 +22,6 @@
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.6",
