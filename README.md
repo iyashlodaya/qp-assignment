@@ -28,7 +28,7 @@ cd qp-assignment
 ### **2.Set up environment variables** 
 
 Create a .env file in the root directory of the project and add the following content:
-
+```bash
 DB_NAME=your_db_name
 DB_USER=your_db_username
 DB_PASSWORD=your_db_password
@@ -36,7 +36,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_DIALECT=postgres
 JWT_SECRET_KEY=qp-assignment
-
+```
 
 ### **3. Build Docker Images**
 
