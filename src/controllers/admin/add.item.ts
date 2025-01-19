@@ -1,3 +1,4 @@
+/// <reference path="../../types/types.d.ts" />
 import { Request, Response } from "express";
 import { Item } from "../../db/models";
 
