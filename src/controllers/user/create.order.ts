@@ -9,7 +9,12 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     return;
   }
 
-  const user_id = req.user && req.user.user_id;
+  const user_id = req.user?.user_id;
+
+  if (typeof user_id !== "number") {
+    res.status(400).json({ message: "User ID is required to place an order" });
+    return;
+  }
 
   const { items } = req.body;
 
@@ -60,7 +65,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       // Create order
       const order = await Order.create(
         {
-          user_id: user_id && req.user.user_id,
+          user_id: user_id,
           total_price: totalPrice,
           status: "Pending",
         },

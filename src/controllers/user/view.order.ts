@@ -10,7 +10,7 @@ export const viewUserOrders = async (
     res.status(403).json({ message: "Unautorized access!" });
     return;
   }
-  const userId = req.user.user_id;
+  const userId = req.user?.user_id;
 
   try {
     // Fetch all orders associated with the logged-in user
